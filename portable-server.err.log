@@ -1,0 +1,4 @@
+C:\Users\Vrajkumar\Documents\Codex\2026-04-28\i-want-to-create-automatic-trade\server.py:170: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  stored_name = f"{datetime.utcnow().strftime('%Y%m%d%H%M%S')}_{secrets.token_hex(6)}{extension}"
+C:\Users\Vrajkumar\Documents\Codex\2026-04-28\i-want-to-create-automatic-trade\server.py:92: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  now = datetime.utcnow()
