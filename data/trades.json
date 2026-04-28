@@ -1,0 +1,23 @@
+[
+  {
+    "id": "trade_1777415416871_b4f8e7",
+    "tradeDate": "2026-04-28",
+    "createdAt": "2026-04-28T18:30:16Z",
+    "instrument": "NQ",
+    "account": "Lucid 50k",
+    "direction": "Short",
+    "setupType": "short on follow up imbalance candle",
+    "timeframe": "5m",
+    "entryPrice": "27059.44",
+    "stopLoss": "",
+    "takeProfit": "27052.38",
+    "contracts": "4",
+    "result": "551",
+    "outcome": "Win",
+    "rrRatio": "",
+    "emotion": "Impulsive",
+    "mistakeCategory": "Overtrading",
+    "screenshotLink": "",
+    "notes": ""
+  }
+]
