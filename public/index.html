@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trade Journal</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Automatic Trade Journal</p>
+          <h1>Trade Journal</h1>
+        </div>
+        <div class="topbar-actions">
+          <a class="button ghost" href="/api/export.csv">Export CSV</a>
+          <a class="button primary" href="/api/export.xlsx">Export Excel</a>
+        </div>
+      </header>
+
+      <main class="layout">
+        <section class="panel form-panel">
+          <div class="panel-header">
+            <div>
+              <h2>New Entry</h2>
+              <p>Capture the trade while the context is still fresh.</p>
+            </div>
+            <div id="saveStatus" class="status-pill">Ready</div>
+          </div>
+
+          <form id="tradeForm" class="trade-form" enctype="multipart/form-data">
+            <div class="form-grid">
+              <label>
+                <span>Date</span>
+                <input type="date" name="tradeDate" id="tradeDate" required />
+              </label>
+
+              <label>
+                <span>Instrument</span>
+                <input list="instrumentOptions" name="instrument" placeholder="NQ" required />
+                <datalist id="instrumentOptions">
+                  <option value="NQ"></option>
+                  <option value="ES"></option>
+                  <option value="MNQ"></option>
+                  <option value="MES"></option>
+                </datalist>
+              </label>
+
+              <label>
+                <span>Account</span>
+                <input name="account" placeholder="Apex 50k" required />
+              </label>
+
+              <label>
+                <span>Direction</span>
+                <select name="direction" required>
+                  <option value="">Select</option>
+                  <option>Long</option>
+                  <option>Short</option>
+                </select>
+              </label>
+
+              <label>
+                <span>Setup Type</span>
+                <input list="setupOptions" name="setupType" placeholder="Sweep Reversal" />
+                <datalist id="setupOptions">
+                  <option value="Sweep Reversal"></option>
+                  <option value="Pullback"></option>
+                  <option value="Value Rotation"></option>
+                  <option value="Breakout"></option>
+                </datalist>
+              </label>
+
+              <label>
+                <span>Timeframe</span>
+                <select name="timeframe">
+                  <option value="">Select</option>
+                  <option>1m</option>
+                  <option>3m</option>
+                  <option>5m</option>
+                  <option>15m</option>
+                  <option>1h</option>
+                </select>
+              </label>
+
+              <label>
+                <span>Entry Price</span>
+                <input name="entryPrice" type="number" step="0.01" placeholder="0.00" />
+              </label>
+
+              <label>
+                <span>Stop Loss</span>
+                <input name="stopLoss" type="number" step="0.01" placeholder="0.00" />
+              </label>
+
+              <label>
+                <span>Take Profit</span>
+                <input name="takeProfit" type="number" step="0.01" placeholder="0.00" />
+              </label>
+
+              <label>
+                <span>Contracts</span>
+                <input name="contracts" type="number" min="1" step="1" placeholder="1" />
+              </label>
+
+              <label>
+                <span>Result ($ / points)</span>
+                <input name="result" placeholder="+250 / +10 pts" />
+              </label>
+
+              <label>
+                <span>Win / Loss</span>
+                <select name="outcome">
+                  <option value="">Select</option>
+                  <option>Win</option>
+                  <option>Loss</option>
+                  <option>Breakeven</option>
+                </select>
+              </label>
+
+              <label>
+                <span>RR Ratio</span>
+                <input name="rrRatio" placeholder="2R" />
+              </label>
+
+              <label>
+                <span>Emotion</span>
+                <input list="emotionOptions" name="emotion" placeholder="Calm" />
+                <datalist id="emotionOptions">
+                  <option value="Calm"></option>
+                  <option value="Focused"></option>
+                  <option value="Confident"></option>
+                  <option value="Frustrated"></option>
+                  <option value="Impulsive"></option>
+                </datalist>
+              </label>
+
+              <label>
+                <span>Mistake Category</span>
+                <input
+                  list="mistakeOptions"
+                  name="mistakeCategory"
+                  placeholder="Overtrading"
+                />
+                <datalist id="mistakeOptions">
+                  <option value="No Mistake"></option>
+                  <option value="Overtrading"></option>
+                  <option value="Early Entry"></option>
+                  <option value="Late Exit"></option>
+                  <option value="Ignored Stop"></option>
+                </datalist>
+              </label>
+
+              <label class="full-span">
+                <span>Screenshot</span>
+                <input id="screenshotFile" name="screenshotFile" type="file" accept="image/*" />
+              </label>
+
+              <div id="imagePreview" class="image-preview is-empty full-span">
+                <img id="imagePreviewImage" alt="Selected trade screenshot preview" hidden />
+                <div class="image-preview-text">
+                  <strong id="imagePreviewTitle">No screenshot selected</strong>
+                  <p id="imagePreviewMeta">Upload a chart image directly with the trade.</p>
+                </div>
+              </div>
+
+              <label class="full-span">
+                <span>Notes</span>
+                <textarea
+                  name="notes"
+                  rows="5"
+                  placeholder="What happened? What did you learn?"
+                ></textarea>
+              </label>
+            </div>
+
+            <div class="form-actions">
+              <button class="button primary" type="submit">Save Trade</button>
+              <button class="button secondary" type="reset">Clear</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel dashboard-panel">
+          <div class="panel-header">
+            <div>
+              <h2>Journal Dashboard</h2>
+              <p>Select a trade to open the full breakdown.</p>
+            </div>
+            <input
+              id="searchInput"
+              class="search-input"
+              placeholder="Search notes, setup, account..."
+            />
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat">
+              <span>Total Trades</span>
+              <strong id="totalTrades">0</strong>
+            </div>
+            <div class="stat">
+              <span>Wins</span>
+              <strong id="winTrades">0</strong>
+            </div>
+            <div class="stat">
+              <span>Losses</span>
+              <strong id="lossTrades">0</strong>
+            </div>
+            <div class="stat">
+              <span>Win Rate</span>
+              <strong id="winRate">0%</strong>
+            </div>
+            <div class="stat">
+              <span>With Images</span>
+              <strong id="imageTrades">0</strong>
+            </div>
+          </div>
+
+          <div class="journal-workspace">
+            <section class="trade-list-column">
+              <div id="tradeList" class="trade-list">
+                <div class="empty-list">No trades saved yet.</div>
+              </div>
+            </section>
+
+            <aside id="tradeDetail" class="trade-detail empty">
+              <div class="empty-detail">
+                <h3>No trade selected</h3>
+                <p>Save or choose a trade to see the full review view here.</p>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
